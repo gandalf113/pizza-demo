@@ -4,7 +4,7 @@ import MenuItem from '../../components/ui/menu/MenuItem';
 import CategoryItem from '../../components/ui/menu/CategoryItem';
 import ShoppingCartFloatingButton from '../../components/ui/menu/ShoppingCartFloatingButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { increment } from '../../redux/cartSlice';
+import { addItem } from '../../redux/cartSlice';
 
 const DUMMY_PIZZAS = [
     {
@@ -66,17 +66,17 @@ const DUMMY_CATEGORIES = [
 const MenuPage = () => {
     const [selectedCategory, setSelectedCategory] = useState(DUMMY_CATEGORIES[0]);
 
-    const { value } = useSelector(state => state.cart);
+    const { items } = useSelector(state => state.cart);
 
     const dispatch = useDispatch();
 
-    const handleAddToCart = () => {
-        dispatch(increment());
+    const addItemToCart = (item) => {
+        dispatch(addItem(item));
     }
 
     return (
         <div className='z-10 md:mx-12 my-6 m-auto md:px-16 py-8 bg-white'>
-            <ShoppingCartFloatingButton count={value} />
+            <ShoppingCartFloatingButton count={items.length} />
             <div className='flex justify-around mb-12'>
                 {DUMMY_CATEGORIES.map(category => (
                     <CategoryItem key={category.id} category={category}
@@ -87,7 +87,7 @@ const MenuPage = () => {
             </div>
             <div>
                 {selectedCategory.items.map(item => (
-                    <MenuItem key={item.id} handleAddToCart={handleAddToCart} item={item} />
+                    <MenuItem key={item.id} handleAddToCart={() => addItemToCart(item)} item={item} />
                 ))}
             </div>
 
