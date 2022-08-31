@@ -35,7 +35,7 @@ const Navbar = () => {
             </Link>
             <div className='items-center gap-x-4 md:flex hidden'>
                 {NAVIGATION.map(nav => (
-                    <NavItem item={nav} />
+                    <NavItem key={nav.title} item={nav} />
                 ))}
             </div>
         </div >

@@ -2,24 +2,31 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import MenuItem from '../../components/ui/menu/MenuItem';
 import CategoryItem from '../../components/ui/menu/CategoryItem';
+import ShoppingCartFloatingButton from '../../components/ui/menu/ShoppingCartFloatingButton';
+import { useDispatch, useSelector } from 'react-redux';
+import { increment } from '../../redux/cartSlice';
 
 const DUMMY_PIZZAS = [
     {
+        "id": 1,
         "title": "Margaritta",
         "ingredients": "Ser",
         "price": 19.99,
     },
     {
+        "id": 2,
         "title": "Cappriciosa",
         "ingredients": "Ser, Szynka",
         "price": 24.99
     },
     {
+        "id": 3,
         "title": "Salami",
         "ingredients": "Ser, Salami",
         "price": 25.99
     },
     {
+        "id": 4,
         "title": "Havaii",
         "ingredients": "Ser, Szynka, Ananas",
         "price": 28.99
@@ -59,12 +66,20 @@ const DUMMY_CATEGORIES = [
 const MenuPage = () => {
     const [selectedCategory, setSelectedCategory] = useState(DUMMY_CATEGORIES[0]);
 
+    const { value } = useSelector(state => state.cart);
+
+    const dispatch = useDispatch();
+
+    const handleAddToCart = () => {
+        dispatch(increment());
+    }
+
     return (
         <div className='z-10 md:mx-12 my-6 m-auto md:px-16 py-8 bg-white'>
-
+            <ShoppingCartFloatingButton count={value} />
             <div className='flex justify-around mb-12'>
                 {DUMMY_CATEGORIES.map(category => (
-                    <CategoryItem category={category}
+                    <CategoryItem key={category.id} category={category}
                         isActive={selectedCategory.id === category.id}
                         handleClick={() => setSelectedCategory(category)}
                     />
@@ -72,7 +87,7 @@ const MenuPage = () => {
             </div>
             <div>
                 {selectedCategory.items.map(item => (
-                    <MenuItem item={item} />
+                    <MenuItem key={item.id} handleAddToCart={handleAddToCart} item={item} />
                 ))}
             </div>
 

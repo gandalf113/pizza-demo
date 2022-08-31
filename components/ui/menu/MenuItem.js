@@ -1,6 +1,6 @@
 import React from 'react'
 
-const MenuItem = ({ item }) => {
+const MenuItem = ({ item, handleAddToCart }) => {
     return (
         <div>
             <div className='flex justify-between p-4 text-xl'>
@@ -10,7 +10,8 @@ const MenuItem = ({ item }) => {
                 </div>
                 <div className='flex items-center gap-x-4'>
                     <p className='italic'>{item.price} zł</p>
-                    <button className='p-2 bg-green-600 text-white rounded-xl'>Do koszyka</button>
+                    <button className='p-2 bg-green-600 text-white rounded-xl'
+                        onClick={handleAddToCart}>Do koszyka</button>
                 </div>
             </div>
             <hr className='border-t' />
