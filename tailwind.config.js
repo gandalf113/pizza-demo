@@ -5,7 +5,11 @@ module.exports = {
     "./components/**/*.js",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        handwritten: ['Amatic SC']
+      }
+    },
   },
   plugins: [],
 }
