@@ -5,6 +5,7 @@ import CategoryItem from '../../components/ui/menu/CategoryItem';
 import ShoppingCartFloatingButton from '../../components/ui/menu/ShoppingCartFloatingButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '../../redux/cartSlice';
+import { toggleCartMenu } from '../../redux/uiSlice';
 
 const DUMMY_PIZZAS = [
     {
@@ -74,9 +75,13 @@ const MenuPage = () => {
         dispatch(addItem(item));
     }
 
+    const openCart = () => {
+        dispatch(toggleCartMenu(true));
+    }
+
     return (
         <div className='z-10 md:mx-12 my-6 m-auto md:px-16 py-8 bg-white'>
-            <ShoppingCartFloatingButton count={items.length} />
+            <ShoppingCartFloatingButton onClick={openCart} count={items.length} />
             <div className='flex justify-around mb-12'>
                 {DUMMY_CATEGORIES.map(category => (
                     <CategoryItem key={category.id} category={category}
