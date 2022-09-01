@@ -42,18 +42,18 @@ const CartMenu = () => {
                                         <div className='flex items-center gap-x-4'>
                                             <div className='flex items-center gap-x-2 text-gray-500'>
                                                 <button onClick={() => {
-                                                    dispatch(removeItem(item))
+                                                    dispatch(removeItem(item.item))
                                                 }}><AiOutlineClose /></button>
 
                                             </div>
                                             <div>
-                                                <h3 className='text-lg'>{item.title}</h3>
-                                                <p className='font-light'>{item.ingredients}</p>
+                                                <h3 className='text-lg'>{item.item.title} x{item.amount}</h3>
+                                                <p className='font-light'>{item.item.ingredients}</p>
                                             </div>
                                         </div>
 
                                         <div className='flex items-center gap-x-1'>
-                                            <p>{item.price} zł</p>
+                                            <p>{item.item.price} zł</p>
                                         </div>
                                     </div>
                                 ))}

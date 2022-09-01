@@ -13,14 +13,27 @@ export const cartSlice = createSlice({
      * @param {Object} action - item to be added
      */
     addItem: (state, action) => {
-      state.items.push(action.payload);
+      // First, check if item of this kind is in cart already
+      const index = state.items.findIndex(item => item.item.id === action.payload.id);
+      // If it is not, add it there
+      if (index === -1) {
+        const item = {
+          item: action.payload,
+          amount: 1
+        }
+        state.items.push(item);
+      }
+      // If it is, increment the amount
+      else {
+        state.items[index].amount += 1;
+      }
     },
     /**
      * Removes an item from the cart
      * @param {Object} action - item to be removed
      */
     removeItem: (state, action) => {
-      const index = state.items.findIndex(item => item.id === action.payload.id);
+      const index = state.items.findIndex(item => item.item.id === action.payload.id);
       if (index > -1) {
         state.items.splice(index, 1);
       }
