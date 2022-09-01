@@ -62,7 +62,14 @@ const DUMMY_CATEGORIES = [
     },
 ];
 
-
+const getItemCount = (items) => {
+    let count = 0;
+    for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        count += item.amount;
+    }
+    return count;
+}
 
 const MenuPage = () => {
     const [selectedCategory, setSelectedCategory] = useState(DUMMY_CATEGORIES[0]);
@@ -75,13 +82,15 @@ const MenuPage = () => {
         dispatch(addItem(item));
     }
 
+
+
     const openCart = () => {
         dispatch(toggleCartMenu(true));
     }
 
     return (
         <div className='z-10 md:mx-12 my-6 m-auto md:px-16 py-8 bg-white'>
-            <ShoppingCartFloatingButton onClick={openCart} count={items.length} />
+            <ShoppingCartFloatingButton onClick={openCart} count={getItemCount(items)} />
             <div className='flex justify-around mb-12'>
                 {DUMMY_CATEGORIES.map(category => (
                     <CategoryItem key={category.id} category={category}

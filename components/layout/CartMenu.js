@@ -6,6 +6,15 @@ import { toggleCartMenu } from '../../redux/uiSlice'
 import { AnimatePresence, motion } from 'framer-motion'
 import { removeItem } from '../../redux/cartSlice'
 
+const getPriceSum = (items) => {
+    let sum = 0;
+    for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        sum += item.item.price * item.amount;
+    }
+    return sum.toFixed(2);
+}
+
 const CartMenu = () => {
     const { items: cartItems } = useSelector(state => state.cart);
     const { isCartMenuOpen: isOpen } = useSelector(state => state.ui);
@@ -15,6 +24,7 @@ const CartMenu = () => {
     const handleClose = () => {
         dispatch(toggleCartMenu(false));
     }
+
 
     return (
         <AnimatePresence>
@@ -61,7 +71,10 @@ const CartMenu = () => {
                         </div>
 
                         {/* Finalize section */}
-                        <div>
+                        <div className='space-y-4 p-4'>
+                            <h4 className='text-3xl'>
+                                Razem: {getPriceSum(cartItems)} zł
+                            </h4>
                             <button className='w-full bg-green-600 text-white p-4 rounded-lg text-xl'>ZAMÓW</button>
                         </div>
                     </motion.div>
