@@ -31,7 +31,7 @@ const CartMenu = () => {
                             {/* Heading */}
                             <div className='flex items-end justify-between'>
                                 <h2 className='text-xl'>Koszyk</h2>
-                                <button>
+                                <button onClick={handleClose}>
                                     <AiOutlineClose size={24} />
                                 </button>
                             </div>
