@@ -24,6 +24,10 @@ const Navbar = () => {
 
     const currentRoute = router.pathname;
 
+    if (currentRoute === '/admin') {
+        return null;
+    }
+
     return (
         <div className={`flex justify-between items-center
          py-4 px-16 z-10 ${currentRoute !== '/' ? 'text-black' : 'text-white'}`}>
@@ -38,7 +42,7 @@ const Navbar = () => {
                     <NavItem key={nav.title} item={nav} />
                 ))}
             </div>
-        </div >
+        </div>
     )
 }
 
