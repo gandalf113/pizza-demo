@@ -8,13 +8,6 @@ import { removeItem } from '../../redux/cartSlice'
 import { getPriceSum } from '../../utils/cart-utils'
 import Link from 'next/link'
 
-const preparePayload = (items) => {
-    return items.map(item => ({
-        itemId: item.item.id,
-        amount: item.amount
-    }))
-}
-
 const CartMenu = () => {
     const { items: cartItems } = useSelector(state => state.cart);
     const { isCartMenuOpen: isOpen } = useSelector(state => state.ui);
@@ -24,34 +17,6 @@ const CartMenu = () => {
     const handleClose = () => {
         dispatch(toggleCartMenu(false));
     }
-
-    const handlePlaceOrder = async () => {
-        const items = preparePayload(cartItems);
-        const address = {
-            street: "Słowackiego",
-            local: "56/3"
-        }
-        const phone_number = '123456789'
-        const data = { items, address, phone_number }
-
-        const res = await fetch('/api/order/', {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-
-        if (res.status === 201) {
-            alert("Sukces!")
-        } else {
-            alert("Fuck")
-        }
-
-        const resData = await res.json();
-        console.log(resData)
-    }
-
 
     return (
         <AnimatePresence>

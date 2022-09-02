@@ -30,6 +30,16 @@ const getTotalOrderPrice = (itemsSum, deliveryPrice) => {
   return Number.parseFloat(itemsSum) + Number.parseFloat(deliveryPrice);
 }
 
+/**
+ * @param {Array} items
+ */
+const preparePayload = (items) => {
+  return items.map(item => ({
+    itemId: item.item.id,
+    amount: item.amount
+  }))
+}
+
 const OrderPage = () => {
   const dispatch = useDispatch();
 
@@ -61,6 +71,34 @@ const OrderPage = () => {
   const validateForm = () => {
     return (deliveryMethod === 2 || street && local && street.trim !== '' && local.trim !== '') && phone && phone.trim !== ''
       && cartItems.length > 0
+  }
+
+
+  const placeOrder = async () => {
+    const items = preparePayload(cartItems);
+    const address = {
+      street: street,
+      local: local
+    }
+    const phone_number = phone
+    const data = { items, address, phone_number }
+
+    const res = await fetch('/api/order/', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+
+    if (res.status === 201) {
+      alert("Pomyślnie złożono zamówienie!")
+    } else {
+      alert("Wystąpił błąd podczas składania zamówienia")
+    }
+
+    const resData = await res.json();
+    console.log(resData)
   }
 
   const renderExpandedSection = (sectionId) => {
@@ -123,6 +161,7 @@ const OrderPage = () => {
           <p>{totalPrice} zł</p>
         </div>
         <button
+          onClick={placeOrder}
           className={`my-6 w-full text-white p-4 rounded-sm
         ${validateForm() ? 'bg-green-600 hover:bg-green-700' : 'bg-neutral-300'}`}
           disabled={!validateForm()}>Zamów</button>
