@@ -9,10 +9,15 @@ export default async function handler(req, res) {
     if (req.method == "POST") {
         const { address, items, phone_number } = req.body;
         await connectDb();
-        const ordered_on = new Date().toISOString();
-        const order = new Order({ address, items, phone_number, ordered_on });
-        await order.save();
-        res.status(201).json({ order });
+        try {
+            const ordered_on = new Date().toISOString();
+            const order = new Order({ address, items, phone_number, ordered_on });
+            await order.save();
+            res.status(201).json({ order });
+        }
+        catch (error) {
+            res.status(500).json({ message: "Wystąpił błąd przy tworzeniu zamówienia" });
+        }
     } else if (req.method == "GET") {
         const orders = await Order.find();
         res.status(200).json({orders});
