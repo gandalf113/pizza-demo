@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import OrderSection from '../../components/admin/OrderSection';
 import ReservationSection from '../../components/admin/ReservationSection';
+import MenuSection from '../../components/admin/MenuSection';
 
 const SECTIONS = [
     {
@@ -29,7 +30,7 @@ const AdminPage = () => {
     const renderSection = () => {
         switch (openSection.id) {
             case 1:
-                return <div>Hehe</div>
+                return <MenuSection />
             case 2:
                 return <OrderSection />
             case 3:

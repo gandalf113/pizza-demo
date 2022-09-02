@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react'
+import { toCurrency } from '../../utils/misc-utils';
 
-const OrderSection = () => {
+const MenuSection = () => {
+    const [items, setItems] = useState();
     const [loading, setLoading] = useState(true);
-    const [orders, setOrders] = useState();
 
     useEffect(() => {
-        const fetchOrders = async () => {
-            setLoading(true);
-            const res = await fetch('/api/order');
-
+        const fetchMenu = async () => {
+            const res = await fetch('/api/menu-item');
             const resData = await res.json();
 
-            setOrders(resData.orders);
+            setItems(resData.items);
             setLoading(false);
         }
-        fetchOrders();
+
+        fetchMenu();
     }, []);
 
     if (loading) return <div>Ładowanie...</div>
@@ -25,28 +25,26 @@ const OrderSection = () => {
                 <thead className='"text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"'>
                     <tr>
                         <th scope='col' className='py-3 px-6'>
-                            Numer telefonu
+                            Nazwa
                         </th>
                         <th scope='col' className='py-3 px-6'>
-                            Adres
+                            Składniki
                         </th>
                         <th scope='col' className='py-3 px-6'>
-                            Zamówienie
+                            Cena
                         </th>
                         <th scope='col' className='py-3 px-6'>
-                            Kwota
+                            Kategoria
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    {orders.map(order => (
-                        <tr key={order.id}>
-                            <td scope='row' className='py-3 px-6'>{order.phone_number}</td>
-                            <td scope='row' className='py-3 px-6'>{order.address.street} {order.address.local}</td>
-                            <td scope='row' className='py-3 px-6'>{order.items.map(item => <div key={item._id}>
-                                {item.itemId} x {item.amount}
-                            </div>)}</td>
-                            <td scope='row' className='py-3 px-6'>00.00 zł</td>
+                    {items.map(item => (
+                        <tr key={item.id}>
+                            <td scope='row' className='py-3 px-6'>{item.title}</td>
+                            <td scope='row' className='py-3 px-6'>{item.ingredients}</td>
+                            <td scope='row' className='py-3 px-6'>{toCurrency(item.price)}</td>
+                            <td scope='row' className='py-3 px-6'>{item.category}</td>
                         </tr>
                     ))}
 
@@ -56,4 +54,4 @@ const OrderSection = () => {
     )
 }
 
-export default OrderSection
+export default MenuSection
