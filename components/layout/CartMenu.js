@@ -1,20 +1,12 @@
 import React from 'react'
 import Backdrop from './Backdrop'
 import { useSelector, useDispatch } from 'react-redux'
-import { AiOutlineClose, AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai'
+import { AiOutlineClose } from 'react-icons/ai'
 import { toggleCartMenu } from '../../redux/uiSlice'
 import { AnimatePresence, motion } from 'framer-motion'
 import { removeItem } from '../../redux/cartSlice'
+import { getPriceSum } from '../../utils/cart-utils'
 import Link from 'next/link'
-
-const getPriceSum = (items) => {
-    let sum = 0;
-    for (let i = 0; i < items.length; i++) {
-        const item = items[i];
-        sum += item.item.price * item.amount;
-    }
-    return sum.toFixed(2);
-}
 
 const preparePayload = (items) => {
     return items.map(item => ({
