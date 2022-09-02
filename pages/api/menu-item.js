@@ -8,6 +8,7 @@ import MenuItem from "../../models/menu-item";
 export default async function handler(req, res) {
     if (req.method == "POST") {
         const { title, ingredients, price, category } = req.body;
+
         await connectDb();
         try {
             const item = new MenuItem({ title, ingredients, price, category });
@@ -18,6 +19,7 @@ export default async function handler(req, res) {
             res.status(500).json({ message: "Wystąpił błąd przy tworzeniu pozycji" });
         }
     } else if (req.method == "GET") {
+        await connectDb();
         const items = await MenuItem.find();
         res.status(200).json({items});
     }

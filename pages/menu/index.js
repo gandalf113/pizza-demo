@@ -62,6 +62,10 @@ const DUMMY_CATEGORIES = [
     },
 ];
 
+const filterItemsByCategory = (menuItems, category) => {
+    return menuItems.filter(item => item.category === category);
+}
+
 const getItemCount = (items) => {
     let count = 0;
     for (let i = 0; i < items.length; i++) {
@@ -71,7 +75,7 @@ const getItemCount = (items) => {
     return count;
 }
 
-const MenuPage = () => {
+const MenuPage = ({ menuItems, error }) => {
     const [selectedCategory, setSelectedCategory] = useState(DUMMY_CATEGORIES[0]);
 
     const { items } = useSelector(state => state.cart);
@@ -81,8 +85,6 @@ const MenuPage = () => {
     const addItemToCart = (item) => {
         dispatch(addItem(item));
     }
-
-
 
     const openCart = () => {
         dispatch(toggleCartMenu(true));
@@ -99,14 +101,27 @@ const MenuPage = () => {
                     />
                 ))}
             </div>
+
             <div>
-                {selectedCategory.items.map(item => (
-                    <MenuItem key={item.id} handleAddToCart={() => addItemToCart(item)} item={item} />
+                {filterItemsByCategory(menuItems, selectedCategory.name).map(item => (
+                    <MenuItem key={item._id} handleAddToCart={() => addItemToCart(item)} item={item} />
                 ))}
             </div>
-
-        </div >
+        </div>
     )
+}
+
+export async function getStaticProps() {
+    const res = await fetch(`${process.env.BASE_URL}/api/menu-item`)
+
+    const resData = await res.json();
+    const items = resData.items;
+
+    return {
+        props: {
+            menuItems: items,
+        }
+    }
 }
 
 export default MenuPage

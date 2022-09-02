@@ -19,6 +19,7 @@ export default async function handler(req, res) {
             res.status(500).json({ message: "Wystąpił błąd przy tworzeniu zamówienia" });
         }
     } else if (req.method == "GET") {
+        await connectDb();
         const orders = await Order.find();
         res.status(200).json({orders});
     }

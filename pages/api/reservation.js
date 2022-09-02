@@ -13,6 +13,7 @@ export default async function handler(req, res) {
         await reservation.save();
         res.status(201).json({ reservation });
     } else if (req.method == "GET") {
+        await connectDb();
         const reservations = await Reservation.find();
         res.status(200).json({ reservations });
     }

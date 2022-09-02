@@ -1,5 +1,6 @@
 import React from 'react'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
+import { toCurrency } from '../../../utils/misc-utils'
 
 const MenuItem = ({ item, handleAddToCart }) => {
     return (
@@ -10,7 +11,7 @@ const MenuItem = ({ item, handleAddToCart }) => {
                     <span className='font-light'>{item.ingredients}</span>
                 </div>
                 <div className='flex items-center gap-x-4'>
-                    <p className='font-light'>{item.price} zł</p>
+                    <p className='font-light'>{toCurrency(item.price)}</p>
                     <button className='flex gap-x-2 items-center p-2 bg-lime-600 text-white rounded-xl text-base'
                         onClick={handleAddToCart}><AiOutlineShoppingCart /> Dodaj</button>
                 </div>
