@@ -9,6 +9,7 @@ const orderSchema = new Schema({
         itemId: { type: String, required: true },
         amount: { type: Number, required: true },
     }],
+    phone_number: { type: String, required: true },
     ordered_on: { type: String, required: true },
 });
 
