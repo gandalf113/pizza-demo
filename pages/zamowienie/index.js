@@ -34,7 +34,11 @@ const OrderPage = () => {
   const dispatch = useDispatch();
 
   const [openSection, setOpenSection] = useState(2);
-  const [deliveryPrice, setDeliveryPrice] = useState(6);
+  const [deliveryMethod, setDeliveryMethod] = useState(1);
+
+  const [street, setStreet] = useState('');
+  const [local, setLocal] = useState('');
+  const [phone, setPhone] = useState('');
 
   const { items: cartItems } = useSelector(state => state.cart);
 
@@ -54,18 +58,27 @@ const OrderPage = () => {
     dispatch(decrementItem(item))
   }
 
+  const validateForm = () => {
+    return (deliveryMethod === 2 || street && local && street.trim !== '' && local.trim !== '') && phone && phone.trim !== ''
+      && cartItems.length > 0
+  }
+
   const renderExpandedSection = (sectionId) => {
     switch (sectionId) {
       case 1:
         return <CartItemsSection items={cartItems} addItem={handleAddItem} removeSingleItem={handleRemoveSingleItem} />
       case 2:
-        return <DeliverySection handleSetDeliveryPrice={setDeliveryPrice} />
+        return <DeliverySection deliveryMethod={deliveryMethod} setDeliveryMethod={setDeliveryMethod}
+          setStreet={setStreet} setLocal={setLocal} setPhone={setPhone}
+          street={street} local={local} phone={phone} />
       case 3:
         return <div>Tutaj będzie można wybrać metodę płatności (Przy odbiorze, BLIK, Przelewy24 itd.)</div>
       default:
         return null;
     }
   }
+
+  const deliveryPrice = deliveryMethod === 1 ? 6 : 0;
 
   const itemsPrice = getPriceSum(cartItems);
   const totalPrice = getTotalOrderPrice(itemsPrice, deliveryPrice);
@@ -109,6 +122,10 @@ const OrderPage = () => {
           <p>Razem</p>
           <p>{totalPrice} zł</p>
         </div>
+        <button
+          className={`my-6 w-full text-white p-4 rounded-sm
+        ${validateForm() ? 'bg-green-600 hover:bg-green-700' : 'bg-neutral-300'}`}
+          disabled={!validateForm()}>Zamów</button>
       </div>
 
     </div>

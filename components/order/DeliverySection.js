@@ -14,12 +14,7 @@ const OPTIONS = [
     },
 ]
 
-const DeliverySection = ({ handleSetDeliveryPrice }) => {
-    const [selectedOption, setSelectedOption] = useState(1);
-
-    const [street, setStreet] = useState('');
-    const [local, setLocal] = useState('');
-    const [phone, setPhone] = useState('');
+const DeliverySection = ({ deliveryMethod, setDeliveryMethod, street, local, phone, setStreet, setLocal, setPhone }) => {
 
     return (
         <div>
@@ -27,13 +22,12 @@ const DeliverySection = ({ handleSetDeliveryPrice }) => {
                 {OPTIONS.map(option => (
                     <div key={option.id}
                         onClick={() => {
-                            setSelectedOption(option.id);
-                            handleSetDeliveryPrice(option.price);
+                            setDeliveryMethod(option.id);
                         }
                         }
                         className='group flex items-center gap-x-2 cursor-pointer text-xl'>
                         {
-                            selectedOption == option.id ?
+                            deliveryMethod == option.id ?
                                 <div className='w-3 h-3 bg-gray-600 ring-2 ring-gray-600 border-2 rounded-full' /> :
                                 <div className='w-3 h-3 bg-gray-50 group-hover:bg-gray-300 ring-2 ring-gray-600 border-2 rounded-full' />
                         }
@@ -46,14 +40,14 @@ const DeliverySection = ({ handleSetDeliveryPrice }) => {
 
             <div>
                 <div className="mt-4 text-lg">
-                    {selectedOption === 1 &&
+                    {deliveryMethod === 1 &&
                         <Fragment>
                             <label htmlFor="street" className="block  text-gray-700">Ulica</label>
-                            <input type="text" name="street" id="street" onChange={(e) => setStreet(e.target.value)}
+                            <input type="text" name="street" id="street" value={street} onChange={(e) => setStreet(e.target.value)}
                                 className="p-1 block w-full flex-1 rounded-md border border-gray-300" placeholder='Mickiewicza' />
 
                             <label htmlFor="local" className="block  text-gray-700">Lokal</label>
-                            <input type="text" name="local" id="local" onChange={(e) => setLocal(e.target.value)}
+                            <input type="text" name="local" id="local" value={local} onChange={(e) => setLocal(e.target.value)}
                                 className="p-1 block w-full flex-1 rounded-md border border-gray-300" placeholder='50/8' />
                         </Fragment>
                     }
@@ -61,7 +55,7 @@ const DeliverySection = ({ handleSetDeliveryPrice }) => {
                     <label htmlFor="phone" className="block  text-gray-700">Numer telefonu</label>
                     <div className="mt-1 flex rounded-md shadow-sm">
                         {/* <span className="inline-flex items-cented borderorder-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500">+48</span> */}
-                        <input type="text" name="phone" id="phone" onChange={(e) => setLocal(e.target.value)}
+                        <input type="text" name="phone" id="phone" value={phone} onChange={(e) => setPhone(e.target.value)}
                             className="p-1 block w-full flex-1 rounded-md border border-gray-300" placeholder='123456789' />
                     </div>
                 </div>
