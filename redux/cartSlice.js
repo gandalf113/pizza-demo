@@ -29,7 +29,7 @@ export const cartSlice = createSlice({
       }
     },
     /**
-     * Removes an item from the cart
+     * Removes an item from the cart (no matter the amount)
      * @param {Object} action - item to be removed
      */
     removeItem: (state, action) => {
@@ -37,11 +37,26 @@ export const cartSlice = createSlice({
       if (index > -1) {
         state.items.splice(index, 1);
       }
+    },
+    /**
+ * Decreases amount of item in the cart by one or removes it entirely
+ * @param {Object} action - item to be removed
+ */
+    decrementItem: (state, action) => {
+      const index = state.items.findIndex(item => item.item.id === action.payload.id);
+      if (index > -1) {
+        const item = state.items[index];
+        if (item.amount === 1) {
+          state.items.splice(index, 1);
+        } else {
+          item.amount -= 1;
+        }
+      }
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { addItem, removeItem } = cartSlice.actions;
+export const { addItem, removeItem, decrementItem } = cartSlice.actions;
 
 export default cartSlice.reducer;

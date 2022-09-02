@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { ImCheckboxChecked, ImCheckboxUnchecked } from 'react-icons/im'
 
 const OPTIONS = [
@@ -16,6 +16,10 @@ const OPTIONS = [
 
 const DeliverySection = ({ handleSetDeliveryPrice }) => {
     const [selectedOption, setSelectedOption] = useState(1);
+
+    const [street, setStreet] = useState('');
+    const [local, setLocal] = useState('');
+    const [phone, setPhone] = useState('');
 
     return (
         <div>
@@ -40,24 +44,28 @@ const DeliverySection = ({ handleSetDeliveryPrice }) => {
 
             </div>
 
-            {selectedOption === 1 &&
-                <div>
-                    <div className="mt-4 text-lg">
-                        <label htmlFor="street" className="block  text-gray-700">Ulica</label>
-                        <input type="text" name="street" id="street" className="p-1 block w-full flex-1 rounded-md border border-gray-300" placeholder='Mickiewicza' />
+            <div>
+                <div className="mt-4 text-lg">
+                    {selectedOption === 1 &&
+                        <Fragment>
+                            <label htmlFor="street" className="block  text-gray-700">Ulica</label>
+                            <input type="text" name="street" id="street" onChange={(e) => setStreet(e.target.value)}
+                                className="p-1 block w-full flex-1 rounded-md border border-gray-300" placeholder='Mickiewicza' />
 
-                        <label htmlFor="local" className="block  text-gray-700">Lokal</label>
-                        <input type="text" name="local" id="local" className="p-1 block w-full flex-1 rounded-md border border-gray-300" placeholder='50/8' />
+                            <label htmlFor="local" className="block  text-gray-700">Lokal</label>
+                            <input type="text" name="local" id="local" onChange={(e) => setLocal(e.target.value)}
+                                className="p-1 block w-full flex-1 rounded-md border border-gray-300" placeholder='50/8' />
+                        </Fragment>
+                    }
 
-
-                        <label htmlFor="phone" className="block  text-gray-700">Numer telefonu</label>
-                        <div className="mt-1 flex rounded-md shadow-sm">
-                            {/* <span className="inline-flex items-cented borderorder-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500">+48</span> */}
-                            <input type="text" name="phone" id="phone" className="p-1 block w-full flex-1 rounded-md border border-gray-300" placeholder='123456789' />
-                        </div>
+                    <label htmlFor="phone" className="block  text-gray-700">Numer telefonu</label>
+                    <div className="mt-1 flex rounded-md shadow-sm">
+                        {/* <span className="inline-flex items-cented borderorder-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500">+48</span> */}
+                        <input type="text" name="phone" id="phone" onChange={(e) => setLocal(e.target.value)}
+                            className="p-1 block w-full flex-1 rounded-md border border-gray-300" placeholder='123456789' />
                     </div>
                 </div>
-            }
+            </div>
         </div >
     )
 }

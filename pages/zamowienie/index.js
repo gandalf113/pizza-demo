@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CartItemsSection from '../../components/order/CartItemsSection';
 import DeliverySection from '../../components/order/DeliverySection';
+import { addItem, decrementItem } from '../../redux/cartSlice';
 import { getPriceSum } from '../../utils/cart-utils';
 
 const SECTIONS = [
@@ -30,6 +31,8 @@ const getTotalOrderPrice = (itemsSum, deliveryPrice) => {
 }
 
 const OrderPage = () => {
+  const dispatch = useDispatch();
+
   const [openSection, setOpenSection] = useState(2);
   const [deliveryPrice, setDeliveryPrice] = useState(6);
 
@@ -43,14 +46,22 @@ const OrderPage = () => {
     }
   }
 
+  const handleAddItem = (item) => {
+    dispatch(addItem(item))
+  }
+
+  const handleRemoveSingleItem = (item) => {
+    dispatch(decrementItem(item))
+  }
+
   const renderExpandedSection = (sectionId) => {
     switch (sectionId) {
       case 1:
-        return <CartItemsSection items={cartItems} />
+        return <CartItemsSection items={cartItems} addItem={handleAddItem} removeSingleItem={handleRemoveSingleItem} />
       case 2:
         return <DeliverySection handleSetDeliveryPrice={setDeliveryPrice} />
       case 3:
-        return <div>BLIK? Hotpay?</div>
+        return <div>Tutaj będzie można wybrać metodę płatności (Przy odbiorze, BLIK, Przelewy24 itd.)</div>
       default:
         return null;
     }
@@ -84,7 +95,7 @@ const OrderPage = () => {
       </div>
       {/* Summary */}
       <div className='col-span-2'>
-        <h2 className='text-xl tracking-tight'>PODSUMOWANIE</h2>
+        <h2 className='text-xl tracking-tight mb-2'>PODSUMOWANIE</h2>
         <div className='flex justify-between'>
           <p>Przedmioty</p>
           <p>{itemsPrice} zł</p>

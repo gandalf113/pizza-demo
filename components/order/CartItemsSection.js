@@ -1,7 +1,7 @@
 import React from 'react'
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai'
 
-const CartItemsSection = ({ items }) => {
+const CartItemsSection = ({ items, addItem, removeSingleItem }) => {
     return (
         <div>
             {items.map(item => (
@@ -11,9 +11,9 @@ const CartItemsSection = ({ items }) => {
                         <p className='font-light'>{item.item.price * item.amount} zł</p>
                     </div>
                     <div className='flex items-center gap-x-4'>
-                        <button><AiOutlinePlus /></button>
+                        <button onClick={() => addItem(item.item)}><AiOutlinePlus /></button>
                         {item.amount}
-                        <button><AiOutlineMinus /></button>
+                        <button  onClick={() => removeSingleItem(item.item)}><AiOutlineMinus /></button>
                     </div>
                 </div>
             ))}
