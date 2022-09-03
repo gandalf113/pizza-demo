@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { getPriceSum } from '../../utils/cart-utils';
 
 const OrderSection = () => {
     const [loading, setLoading] = useState(true);
@@ -48,7 +49,7 @@ const OrderSection = () => {
                             <td scope='row' className='py-3 px-6'>{order.items.map(item => <div key={item._id}>
                                 {item.item.title} x{item.amount}
                             </div>)}</td>
-                            <td scope='row' className='py-3 px-6'>00.00 zł</td>
+                            <td scope='row' className='py-3 px-6'>{getPriceSum(order.items)} zł</td>
                         </tr>
                     ))}
 
