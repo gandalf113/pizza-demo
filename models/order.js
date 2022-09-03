@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { Schema, model, models } from "mongoose";
 
 const orderSchema = new Schema({
@@ -6,7 +7,7 @@ const orderSchema = new Schema({
         local: { type: String, required: true }
     },
     items: [{
-        itemId: { type: String, required: true },
+        item: { type: mongoose.Types.ObjectId, required: true, ref: 'MenuItem' },
         amount: { type: Number, required: true },
     }],
     phone_number: { type: String, required: true },

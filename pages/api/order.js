@@ -20,7 +20,8 @@ export default async function handler(req, res) {
         }
     } else if (req.method == "GET") {
         await connectDb();
-        const orders = await Order.find();
+        const orders = await Order.find().populate('items.item');
+
         res.status(200).json({orders});
     }
 }

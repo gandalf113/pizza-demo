@@ -35,7 +35,7 @@ const getTotalOrderPrice = (itemsSum, deliveryPrice) => {
  */
 const preparePayload = (items) => {
   return items.map(item => ({
-    itemId: item.item.id,
+    item: item.item.id,
     amount: item.amount
   }))
 }

@@ -21,6 +21,6 @@ export default async function handler(req, res) {
     } else if (req.method == "GET") {
         await connectDb();
         const items = await MenuItem.find();
-        res.status(200).json({items});
+        res.status(200).json({ items: items.map(item => item.toObject({ getters: true })) });
     }
 }

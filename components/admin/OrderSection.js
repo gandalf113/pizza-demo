@@ -19,6 +19,8 @@ const OrderSection = () => {
 
     if (loading) return <div>Ładowanie...</div>
 
+    if(!orders) return <div>Brak zamówień</div>
+
     return (
         <div className='overflow-x-auto relative'>
             <table className='w-full text-sm text-center text-gray-500 dark:text-gray-400'>
@@ -44,7 +46,7 @@ const OrderSection = () => {
                             <td scope='row' className='py-3 px-6'>{order.phone_number}</td>
                             <td scope='row' className='py-3 px-6'>{order.address.street} {order.address.local}</td>
                             <td scope='row' className='py-3 px-6'>{order.items.map(item => <div key={item._id}>
-                                {item.itemId} x {item.amount}
+                                {item.item.title} x{item.amount}
                             </div>)}</td>
                             <td scope='row' className='py-3 px-6'>00.00 zł</td>
                         </tr>
