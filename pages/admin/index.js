@@ -58,7 +58,7 @@ const AdminPage = () => {
                 ))}
             </div>
             <div className='p-4 w-full' >
-                <h1 className='text-3xl'>{openSection.name}</h1>
+                {/* <h1 className='text-3xl'>{openSection.name}</h1> */}
                 <div className='my-4'>
                     {renderSection()}
 

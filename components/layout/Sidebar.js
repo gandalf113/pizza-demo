@@ -13,7 +13,7 @@ const Sidebar = ({isOpen, handleClose, children}) => {
                         exit={{ x: '100vw' }}
                         transition={{ type: 'tween' }}
                         onClick={(e) => e.stopPropagation()}
-                        className='z-50 fixed right-0 sm:w-[35vw] w-full h-screen flex flex-col justify-between p-4 bg-white'>
+                        className='z-50 fixed right-0 sm:w-[35vw] w-full h-screen flex flex-col p-4 bg-white'>
                         {children}
                     </motion.div>
                 </Backdrop>}
