@@ -1,9 +1,28 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-const connectDb = async () => {
-    console.log("CONNECTING TO DB...")
-    await mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.xycfp.mongodb.net/${process.env.MONGO_DB_NAME}?retryWrites=true&w=majority`)
-    console.log("CONNECTED!")
+// Here, I register all the models that I have
+// Next.js will create the Mongoose model only after
+// it's been imported somewhere, so I need this to prevent
+// errors when populating
+import MenuItem from "../models/menu-item";
+import Order from "../models/order";
+import Reservation from "../models/reservation";
+
+const connection = {}
+
+async function connectDb() {
+    if (connection.isConnected) {
+        return;
+    }
+
+
+    const db = await mongoose.connect(process.env.MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
+
+    connection.isConnected = db.connections[0].readyState;
+    console.log("CONNECTION STATE: " + connection.isConnected)
 }
 
 export default connectDb;
