@@ -84,7 +84,7 @@ const NewMenuItem = () => {
                         value={category} onChange={(e) => setCategory(e.target.value)} required />
                 </div>
                 <button type='submit' className={`w-full p-4 text-white flex items-center justify-center gap-x-4
-                ${validateForm() ? 'bg-blue-600' : 'bg-gray-300'}`} disabled={!validateForm()}>
+                ${validateForm() ? 'bg-green-600' : 'bg-gray-300'}`} disabled={!validateForm()}>
                     <span>Dodaj</span>
                     {loading && <LoadingSpinner />}
 

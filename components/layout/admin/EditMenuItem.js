@@ -33,25 +33,40 @@ const EditMenuItem = () => {
         return name.trim() !== '' && ingredients.trim() !== '' && Number.parseFloat(price) > 0 && category.trim() !== ''
     }
 
-    const handleAddItem = async (e) => {
+    const handleDelete = async () => {
+        const res = await fetch(`/api/menu-item/${item._id}`, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        if (res.status === 200) {
+            handleClose();
+        } else {
+            setError({ message: 'Wystąpił błąd podczas usuwania potrawy!' })
+        }
+    }
+
+    const handleUpdateItem = async (e) => {
         e.preventDefault();
 
         setLoading(true);
 
         const data = { title: name, ingredients, price, category }
 
-        const res = await fetch('/api/menu-item/', {
-            method: "POST",
+        const res = await fetch(`/api/menu-item/${item._id}`, {
+            method: "PATCH",
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
         })
 
-        if (res.status === 201) {
+        if (res.status === 200) {
             handleClose();
         } else {
-            setError({ message: 'Wystąpił błąd podczas tworzenia potrawy!' })
+            setError({ message: 'Wystąpił błąd podczas edycji potrawy!' })
         }
 
         setLoading(false);
@@ -67,7 +82,7 @@ const EditMenuItem = () => {
                 </button>
             </div>
             {/* Form */}
-            <form onSubmit={handleAddItem} className='space-y-4'>
+            <form onSubmit={handleUpdateItem} className='space-y-4'>
                 <div className='grid grid-cols-4 gap-x-6'>
                     <label htmlFor='item-name'>Nazwa</label>
                     <input id='item-name' name='item-name' placeholder='Margheritta'
@@ -92,12 +107,16 @@ const EditMenuItem = () => {
                         className='p-1 border border-gray-300 col-span-3'
                         value={category} onChange={(e) => setCategory(e.target.value)} required />
                 </div>
+
                 <button type='submit' className={`w-full p-4 text-white flex items-center justify-center gap-x-4
-                ${validateForm() ? 'bg-blue-600' : 'bg-gray-300'}`} disabled={!validateForm()}>
+                ${validateForm() ? 'bg-green-600' : 'bg-gray-300'}`} disabled={!validateForm()}>
                     <span>Zapisz</span>
                     {loading && <LoadingSpinner />}
-
                 </button>
+                <button type='button' onClick={handleDelete} className='w-full p-4 text-white bg-red-400 flex items-center justify-center gap-x-4'>
+                    <span>Usuń</span>
+                </button>
+                {error && <p className='text-red-600'>{error.message}</p>}
             </form>
         </Sidebar>
     )
