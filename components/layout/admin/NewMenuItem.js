@@ -5,6 +5,7 @@ import { toggleNewItemMenu } from '../../../redux/uiSlice';
 import { AiOutlineClose } from 'react-icons/ai';
 import LoadingSpinner from '../../ui/LoadingSpinner';
 import { MenuContext } from '../../../context/menu-context';
+import { CATEGORIES } from '../../../pages/menu';
 
 const NewMenuItem = () => {
     const { isNewItemMenuOpen: isOpen } = useSelector(state => state.ui);
@@ -83,9 +84,16 @@ const NewMenuItem = () => {
                 </div>
                 <div className='grid grid-cols-4 gap-x-6'>
                     <label htmlFor='item-category'>Kategoria</label>
-                    <input id='item-category' name='item-category' placeholder='Pizza'
+                    {/* <input id='item-category' name='item-category' placeholder='Pizza'
                         className='p-1 border border-gray-300 col-span-3'
-                        value={category} onChange={(e) => setCategory(e.target.value)} required />
+                        value={category} onChange={(e) => setCategory(e.target.value)} required /> */}
+                    <select className='border border-gray-300 p-1' onChange={(e) => setCategory(e.target.value)}>
+                        {CATEGORIES.map(cat => (
+                            <option key={cat.id} value={cat.name} >
+                                {cat.name}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <button type='submit' className={`w-full p-4 text-white flex items-center justify-center gap-x-4
                 ${validateForm() ? 'bg-green-600' : 'bg-gray-300'}`} disabled={!validateForm()}>

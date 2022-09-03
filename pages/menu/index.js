@@ -7,58 +7,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '../../redux/cartSlice';
 import { toggleCartMenu } from '../../redux/uiSlice';
 
-const DUMMY_PIZZAS = [
-    {
-        "id": 1,
-        "title": "Margaritta",
-        "ingredients": "Ser",
-        "price": 19.99,
-    },
-    {
-        "id": 2,
-        "title": "Cappriciosa",
-        "ingredients": "Ser, Szynka",
-        "price": 24.99
-    },
-    {
-        "id": 3,
-        "title": "Salami",
-        "ingredients": "Ser, Salami",
-        "price": 25.99
-    },
-    {
-        "id": 4,
-        "title": "Havaii",
-        "ingredients": "Ser, Szynka, Ananas",
-        "price": 28.99
-    },
-]
-const DUMMY_CATEGORIES = [
+
+export const CATEGORIES = [
     {
         "id": 1,
         "name": "Pizza",
-        "items": DUMMY_PIZZAS,
     },
     {
         "id": 2,
-        "name": "Makarony",
-        "items": []
+        "name": "Pasta",
 
     },
     {
         "id": 3,
         "name": "Sałatki",
-        "items": []
     },
     {
         "id": 4,
         "name": "Desery",
-        "items": []
     },
     {
         "id": 5,
         "name": "Napoje",
-        "items": []
     },
 ];
 
@@ -76,7 +46,7 @@ const getItemCount = (items) => {
 }
 
 const MenuPage = ({ menuItems, error }) => {
-    const [selectedCategory, setSelectedCategory] = useState(DUMMY_CATEGORIES[0]);
+    const [selectedCategory, setSelectedCategory] = useState(CATEGORIES[0]);
 
     const { items } = useSelector(state => state.cart);
 
@@ -94,7 +64,7 @@ const MenuPage = ({ menuItems, error }) => {
         <div className='z-10 md:mx-12 my-6 m-auto md:px-16 py-8 bg-white'>
             <ShoppingCartFloatingButton onClick={openCart} count={getItemCount(items)} />
             <div className='flex justify-around mb-12'>
-                {DUMMY_CATEGORIES.map(category => (
+                {CATEGORIES.map(category => (
                     <CategoryItem key={category.id} category={category}
                         isActive={selectedCategory.id === category.id}
                         handleClick={() => setSelectedCategory(category)}
