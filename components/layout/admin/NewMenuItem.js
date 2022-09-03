@@ -3,6 +3,7 @@ import Sidebar from '../Sidebar'
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleNewItemMenu } from '../../../redux/uiSlice';
 import { AiOutlineClose } from 'react-icons/ai';
+import LoadingSpinner from '../../ui/LoadingSpinner';
 
 const NewMenuItem = () => {
     const { isNewItemMenuOpen: isOpen } = useSelector(state => state.ui);
@@ -12,6 +13,9 @@ const NewMenuItem = () => {
     const [price, setPrice] = useState('');
     const [category, setCategory] = useState('');
 
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState();
+
     const dispatch = useDispatch();
 
     const handleClose = () => dispatch(toggleNewItemMenu(false));
@@ -20,8 +24,28 @@ const NewMenuItem = () => {
         return name.trim() !== '' && ingredients.trim() !== '' && price > 0 !== '' && category.trim() !== ''
     }
 
-    const handleAddItem = (e) => {
+    const handleAddItem = async (e) => {
         e.preventDefault();
+
+        setLoading(true);
+
+        const data = { title: name, ingredients, price, category }
+
+        const res = await fetch('/api/menu-item/', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+
+        if (res.status === 201) {
+            handleClose();
+        } else {
+            setError({ message: 'Wystąpił błąd podczas tworzenia potrawy!' })
+        }
+
+        setLoading(false);
     }
 
     return (
@@ -59,8 +83,12 @@ const NewMenuItem = () => {
                         className='p-1 border border-gray-300 col-span-3'
                         value={category} onChange={(e) => setCategory(e.target.value)} required />
                 </div>
-                <button type='submit' className={`w-full p-4 text-white
-                ${validateForm() ? 'bg-blue-600' : 'bg-gray-300'}`} disabled={!validateForm()}>Dodaj</button>
+                <button type='submit' className={`w-full p-4 text-white flex items-center justify-center gap-x-4
+                ${validateForm() ? 'bg-blue-600' : 'bg-gray-300'}`} disabled={!validateForm()}>
+                    <span>Dodaj</span>
+                    {loading && <LoadingSpinner />}
+
+                </button>
             </form>
         </Sidebar>
     )
