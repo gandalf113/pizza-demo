@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Sidebar from '../Sidebar'
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleNewItemMenu } from '../../../redux/uiSlice';
 import { AiOutlineClose } from 'react-icons/ai';
 import LoadingSpinner from '../../ui/LoadingSpinner';
+import { MenuContext } from '../../../context/menu-context';
 
 const NewMenuItem = () => {
     const { isNewItemMenuOpen: isOpen } = useSelector(state => state.ui);
+
+    const { reloadMenuItems } = useContext(MenuContext);
 
     const [name, setName] = useState('');
     const [ingredients, setIngredients] = useState('');
@@ -45,6 +48,7 @@ const NewMenuItem = () => {
             setError({ message: 'Wystąpił błąd podczas tworzenia potrawy!' })
         }
 
+        reloadMenuItems();
         setLoading(false);
     }
 
@@ -87,8 +91,8 @@ const NewMenuItem = () => {
                 ${validateForm() ? 'bg-green-600' : 'bg-gray-300'}`} disabled={!validateForm()}>
                     <span>Dodaj</span>
                     {loading && <LoadingSpinner />}
-
                 </button>
+                {error && <p className='text-red-600'>{error.message}</p>}
             </form>
         </Sidebar>
     )

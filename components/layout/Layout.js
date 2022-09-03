@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import MenuProvider from '../../context/menu-context'
 import EditMenuItem from './admin/EditMenuItem'
 import NewMenuItem from './admin/NewMenuItem'
 import CartMenu from './CartMenu'
@@ -7,15 +8,17 @@ import Navbar from './Navbar'
 const Layout = (props) => {
     return (
         <Fragment>
-            {/* Side menus */}
-            <CartMenu />
-            <NewMenuItem />
-            <EditMenuItem />
+            <MenuProvider>
+                {/* Side menus */}
+                <CartMenu />
+                <NewMenuItem />
+                <EditMenuItem />
 
-            <Navbar />
-            <main>
-                {props.children}
-            </main>
+                <Navbar />
+                <main>
+                    {props.children}
+                </main>
+            </MenuProvider>
         </Fragment>
     )
 }

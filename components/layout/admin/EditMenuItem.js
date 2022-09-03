@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Sidebar from '../Sidebar'
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleEditItemMenu, toggleNewItemMenu } from '../../../redux/uiSlice';
 import { AiOutlineClose } from 'react-icons/ai';
 import LoadingSpinner from '../../ui/LoadingSpinner';
+import { MenuContext } from '../../../context/menu-context';
 
 const EditMenuItem = () => {
     const { isEditItemMenuOpen: isOpen, currentlyEditedMenuItem: item } = useSelector(state => state.ui);
+
+    const { reloadMenuItems } = useContext(MenuContext);
 
     const [name, setName] = useState('');
     const [ingredients, setIngredients] = useState('');
@@ -46,6 +49,8 @@ const EditMenuItem = () => {
         } else {
             setError({ message: 'Wystąpił błąd podczas usuwania potrawy!' })
         }
+
+        reloadMenuItems();
     }
 
     const handleUpdateItem = async (e) => {
@@ -69,6 +74,7 @@ const EditMenuItem = () => {
             setError({ message: 'Wystąpił błąd podczas edycji potrawy!' })
         }
 
+        reloadMenuItems();
         setLoading(false);
     }
 

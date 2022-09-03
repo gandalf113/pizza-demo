@@ -1,25 +1,17 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { toggleEditItemMenu, toggleNewItemMenu } from '../../redux/uiSlice';
 import { toCurrency } from '../../utils/misc-utils';
 import { MdEdit } from 'react-icons/md';
+import { MenuContext } from '../../context/menu-context';
 
 const MenuSection = () => {
     const dispatch = useDispatch();
 
-    const [items, setItems] = useState();
-    const [loading, setLoading] = useState(true);
+    const { menuItems: items, reloadMenuItems, loading, error } = useContext(MenuContext);
 
     useEffect(() => {
-        const fetchMenu = async () => {
-            const res = await fetch('/api/menu-item');
-            const resData = await res.json();
-
-            setItems(resData.items);
-            setLoading(false);
-        }
-
-        fetchMenu();
+        reloadMenuItems();
     }, []);
 
     if (loading) return <div>Ładowanie...</div>
@@ -55,7 +47,7 @@ const MenuSection = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {items.map(item => (
+                        {!error ? items.map(item => (
                             <tr key={item.id}>
                                 <td scope='row' className='py-3 px-6'>{item.title}</td>
                                 <td scope='row' className='py-3 px-6'>{item.ingredients}</td>
@@ -65,7 +57,9 @@ const MenuSection = () => {
                                     <button onClick={() => dispatch(toggleEditItemMenu([true, item]))}><MdEdit size={20} /></button>
                                 </td>
                             </tr>
-                        ))}
+                        )) :
+                        <h5 className='text-red-500'>{error}</h5>
+                        }
 
                     </tbody>
                 </table>
