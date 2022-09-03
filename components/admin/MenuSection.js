@@ -1,7 +1,8 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { toggleNewItemMenu } from '../../redux/uiSlice';
+import { toggleEditItemMenu, toggleNewItemMenu } from '../../redux/uiSlice';
 import { toCurrency } from '../../utils/misc-utils';
+import { MdEdit } from 'react-icons/md';
 
 const MenuSection = () => {
     const dispatch = useDispatch();
@@ -48,6 +49,9 @@ const MenuSection = () => {
                             <th scope='col' className='py-3 px-6'>
                                 Kategoria
                             </th>
+                            <th scope='col' className='py-3 px-6'>
+                                Edytuj
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,6 +61,9 @@ const MenuSection = () => {
                                 <td scope='row' className='py-3 px-6'>{item.ingredients}</td>
                                 <td scope='row' className='py-3 px-6'>{toCurrency(item.price)}</td>
                                 <td scope='row' className='py-3 px-6'>{item.category}</td>
+                                <td>
+                                    <button onClick={() => dispatch(toggleEditItemMenu([true, item]))}><MdEdit size={20} /></button>
+                                </td>
                             </tr>
                         ))}
 

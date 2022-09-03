@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidebar from '../Sidebar'
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleNewItemMenu } from '../../../redux/uiSlice';
+import { toggleEditItemMenu, toggleNewItemMenu } from '../../../redux/uiSlice';
 import { AiOutlineClose } from 'react-icons/ai';
 import LoadingSpinner from '../../ui/LoadingSpinner';
 
-const NewMenuItem = () => {
-    const { isNewItemMenuOpen: isOpen } = useSelector(state => state.ui);
+const EditMenuItem = () => {
+    const { isEditItemMenuOpen: isOpen, currentlyEditedMenuItem: item } = useSelector(state => state.ui);
 
     const [name, setName] = useState('');
     const [ingredients, setIngredients] = useState('');
@@ -16,9 +16,18 @@ const NewMenuItem = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState();
 
+    useEffect(() => {
+        if (Object.keys(item).length > 0) {
+            setName(item.title);
+            setIngredients(item.ingredients);
+            setPrice(item.price);
+            setCategory(item.category);
+        }
+    }, [isOpen])
+
     const dispatch = useDispatch();
 
-    const handleClose = () => dispatch(toggleNewItemMenu(false));
+    const handleClose = () => dispatch(toggleEditItemMenu([false, {}]));
 
     const validateForm = () => {
         return name.trim() !== '' && ingredients.trim() !== '' && Number.parseFloat(price) > 0 && category.trim() !== ''
@@ -52,7 +61,7 @@ const NewMenuItem = () => {
         <Sidebar title='Dodaj nową potrawę' isOpen={isOpen} handleClose={handleClose}>
             {/* Heading */}
             <div className='flex items-end justify-between mb-4'>
-                <h2 className='text-xl'>Nowa potrawa</h2>
+                <h2 className='text-xl'>Edytuj potrawę</h2>
                 <button onClick={handleClose}>
                     <AiOutlineClose size={24} />
                 </button>
@@ -85,7 +94,7 @@ const NewMenuItem = () => {
                 </div>
                 <button type='submit' className={`w-full p-4 text-white flex items-center justify-center gap-x-4
                 ${validateForm() ? 'bg-blue-600' : 'bg-gray-300'}`} disabled={!validateForm()}>
-                    <span>Dodaj</span>
+                    <span>Zapisz</span>
                     {loading && <LoadingSpinner />}
 
                 </button>
@@ -94,4 +103,4 @@ const NewMenuItem = () => {
     )
 }
 
-export default NewMenuItem
+export default EditMenuItem
