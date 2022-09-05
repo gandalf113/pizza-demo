@@ -1,3 +1,5 @@
+import { getSession } from 'next-auth/client';
+
 import connectDb from "../../utils/connect-db";
 import Order from "../../models/order";
 
@@ -8,7 +10,8 @@ import Order from "../../models/order";
 export default async function handler(req, res) {
     await connectDb();
 
-    if (req.method == "POST") {
+    // Create the order
+    if (req.method === "POST") {
         const { address, items, phone_number } = req.body;
         try {
             const ordered_on = new Date().toISOString();
@@ -19,7 +22,16 @@ export default async function handler(req, res) {
         catch (error) {
             res.status(500).json({ message: "Wystąpił błąd przy tworzeniu zamówienia" });
         }
-    } else if (req.method == "GET") {
+    }
+    // Get the orders (ADMIN ONLY)
+    else if (req.method === "GET") {
+        const session = await getSession({ req: req });
+
+        if (!session) {
+            res.status(401).json({message: "Wymagane uwierzytelnienie"});
+            return;
+        }
+
         const orders = await Order.find().populate('items.item');
 
         res.status(200).json({ orders });

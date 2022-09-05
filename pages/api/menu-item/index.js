@@ -1,3 +1,5 @@
+import { getSession } from "next-auth/client";
+
 import connectDb from "../../../utils/connect-db";
 import MenuItem from "../../../models/menu-item";
 
@@ -9,6 +11,13 @@ export default async function handler(req, res) {
     await connectDb();
 
     if (req.method == "POST") {
+        const session = await getSession({ req: req });
+
+        if (!session) {
+            res.status(401).json({ message: "Wymagane uwierzytelnienie" });
+            return;
+        }
+
         const { title, ingredients, price, category } = req.body;
         try {
             const item = new MenuItem({ title, ingredients, price, category });

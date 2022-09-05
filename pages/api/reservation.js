@@ -1,3 +1,5 @@
+import { getSession } from "next-auth/client";
+
 import connectDb from "../../utils/connect-db";
 import Reservation from "../../models/reservation";
 
@@ -14,6 +16,13 @@ export default async function handler(req, res) {
         await reservation.save();
         res.status(201).json({ reservation });
     } else if (req.method == "GET") {
+        const session = await getSession({ req: req });
+
+        if (!session) {
+            res.status(401).json({ message: "Wymagane uwierzytelnienie" });
+            return;
+        }
+
         const reservations = await Reservation.find();
         res.status(200).json({ reservations });
     }

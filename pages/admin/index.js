@@ -50,7 +50,6 @@ const AdminPage = () => {
                 return <ReservationSection />
             default:
                 return null;
-
         }
     }
 
