@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
+import { signin, useSession } from 'next-auth/client'
 import OrderSection from '../../components/admin/OrderSection';
 import ReservationSection from '../../components/admin/ReservationSection';
 import MenuSection from '../../components/admin/MenuSection';
 import AdminLogin from '../../components/admin/AdminLogin';
+import LoadingSpinner from '../../components/ui/LoadingSpinner';
+
 
 const SECTIONS = [
     {
@@ -28,7 +31,7 @@ const AdminPage = () => {
     const [openSection, setOpenSection] = useState(SECTIONS[0]);
     const router = useRouter();
 
-    const [isAuth, setIsAuth] = useState(false);
+    const [session, loading] = useSession();
 
     const renderSection = () => {
         switch (openSection.id) {
@@ -47,7 +50,15 @@ const AdminPage = () => {
         }
     }
 
-    if (!isAuth) {
+    if (loading) return (
+        <div className='flex justify-center items-center h-screen'>
+            <div className='-translate-y-8'>
+                <LoadingSpinner scale='250%' />
+            </div>
+        </div>
+    )
+
+    if (!session) {
         return <AdminLogin />
     }
 

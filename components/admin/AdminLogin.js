@@ -1,16 +1,40 @@
 import Link from 'next/link'
-import React from 'react'
+import { signin } from 'next-auth/client'
+import LoadingSpinner from '../ui/LoadingSpinner';
+import React, { useState } from 'react'
 
 const AdminLogin = () => {
-    const handleLogin = (e) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState();
+
+    const handleLogin = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        const result = await signin('credentials', {
+            redirect: false,
+            email: email,
+            password: password
+        });
+
+        if (result.error) {
+            setError(result.error);
+        } else {
+
+        }
+
+        setLoading(false);
+
+        console.log(result)
     }
 
     return (
         <section className="bg-gray-50 dark:bg-gray-900">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <Link href="/">
-                    <div className="flex items-center mb-6 text-2xl font-semibold text-gray-900 cursor-pointer">
+                    <div className="flex items-center mb-6 text-4xl font-semibold font-handwritten text-gray-900 cursor-pointer">
                         <img className="w-8 h-8 mr-2" src={'/logo_real.png'} alt="logo" />
                         Emiliga Romagna
                     </div>
@@ -23,25 +47,22 @@ const AdminLogin = () => {
                         <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Adres email</label>
-                                <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5" placeholder="name@company.com" required="" />
+                                <input type="email" name="email" id="email"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                                focus:ring-green-600 focus:border-green-600 block w-full p-2.5"
+                                    value={email} onChange={(e) => setEmail(e.target.value)} placeholder="admin@example.com" required />
                             </div>
                             <div>
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Hasło</label>
-                                <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5" required="" />
+                                <input type="password" name="password" id="password" placeholder="••••••••"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                                focus:ring-green-600 focus:border-green-600 block w-full p-2.5"
+                                    value={password} onChange={(e) => setPassword(e.target.value)} required="" />
                             </div>
-                            {/* <div className="flex items-center justify-between">
-                                <div className="flex items-start">
-                                    <div className="flex items-center h-5">
-                                        <input id="remember" aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-green-300" required=""/>
-                                    </div>
-                                    <div className="ml-3 text-sm">
-                                        <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
-                                    </div>
-                                </div>
-                                <a href="#" className="text-sm font-medium text-green-600 hover:underline dark:text-green-500">Forgot password?</a>
-                            </div> */}
-                            <button type="submit" className="w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                            {error && <p className='text-red-600'>{error}</p>}
+                            <button type="submit" className="flex items-center justify-center gap-x-2 w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                                 Zaloguj się
+                                {loading && <LoadingSpinner />}
                             </button>
                             <Link href='/'>
                                 <p className='w-full text-center text-gray-500 cursor-pointer'>Wróć na stronę</p>
