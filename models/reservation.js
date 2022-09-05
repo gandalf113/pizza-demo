@@ -1,10 +1,14 @@
 import { Schema, models, model } from "mongoose";
 
 const reservationSchema = new Schema({
-    name: { type: String, required: true },
-    date: { type: String, required: true },
+    day: { type: String, required: true },
+    hour: { type: String, required: true },
+    firstname: { type: String, required: true },
+    lastname: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
     num_people: { type: Number, required: true },
-    table_number: { type: Number, required: false }
+    note: { type: String, required: false },
 });
 
 const Reservation = models.Reservation || model('Reservation', reservationSchema);

@@ -11,8 +11,8 @@ export default async function handler(req, res) {
     await connectDb();
 
     if (req.method == "POST") {
-        const { name, date, num_people, table_number } = req.body;
-        const reservation = new Reservation({ name, date, num_people, table_number });
+        const { day, hour, firstname, lastname, email, phone, num_people, note } = req.body;
+        const reservation = new Reservation({ day, hour, firstname, lastname, email, phone, num_people, note });
         await reservation.save();
         res.status(201).json({ reservation });
     } else if (req.method == "GET") {
