@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import OrderSection from '../../components/admin/OrderSection';
 import ReservationSection from '../../components/admin/ReservationSection';
 import MenuSection from '../../components/admin/MenuSection';
+import AdminLogin from '../../components/admin/AdminLogin';
 
 const SECTIONS = [
     {
@@ -27,6 +28,8 @@ const AdminPage = () => {
     const [openSection, setOpenSection] = useState(SECTIONS[0]);
     const router = useRouter();
 
+    const [isAuth, setIsAuth] = useState(false);
+
     const renderSection = () => {
         switch (openSection.id) {
             case 1:
@@ -44,10 +47,14 @@ const AdminPage = () => {
         }
     }
 
+    if (!isAuth) {
+        return <AdminLogin />
+    }
+
     return (
         <div className='md:flex'>
             {/* Sidebar */}
-            <div className='md:w-1/4 md:h-screen bg-blue-700 space-y-2  text-white p-8'>
+            <div className='md:fixed md:w-1/4 md:h-screen bg-blue-700 space-y-2  text-white p-8'>
                 {SECTIONS.map(section => (
                     <div
                         key={section.id}
@@ -57,7 +64,7 @@ const AdminPage = () => {
                     </div>
                 ))}
             </div>
-            <div className='p-4 w-full' >
+            <div className='md:absolute p-4 md:w-3/4 md:right-0' >
                 {/* <h1 className='text-3xl'>{openSection.name}</h1> */}
                 <div className='my-4'>
                     {renderSection()}
