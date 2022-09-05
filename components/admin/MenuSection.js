@@ -22,7 +22,7 @@ const MenuSection = () => {
                 <h1 className='text-3xl'>Menu</h1>
                 <button
                     onClick={() => dispatch(toggleNewItemMenu(true))}
-                    className='p-2 mb-4 bg-blue-600 rounded text-white'>Nowa potrawa</button>
+                    className='p-2 mb-4 bg-green-600 rounded text-white'>Nowa potrawa</button>
             </div>
 
             <div className='overflow-x-auto relative'>

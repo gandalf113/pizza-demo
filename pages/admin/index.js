@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
-import { signin, useSession } from 'next-auth/client'
+import { signOut, useSession } from 'next-auth/client'
 import OrderSection from '../../components/admin/OrderSection';
 import ReservationSection from '../../components/admin/ReservationSection';
 import MenuSection from '../../components/admin/MenuSection';
@@ -21,9 +21,16 @@ const SECTIONS = [
         id: 3,
         name: "Rezerwacje"
     },
+]
+
+const ACTIONS = [
     {
         id: 4,
         name: "Wróć na stronę"
+    },
+    {
+        id: 5,
+        name: "Wyloguj się"
     },
 ]
 
@@ -41,12 +48,22 @@ const AdminPage = () => {
                 return <OrderSection />
             case 3:
                 return <ReservationSection />
-            case 4:
-                router.replace('/')
-                return <div>Nastąpi przekierowanie...</div>
             default:
                 return null;
 
+        }
+    }
+
+    const handleAction = (actionId) => {
+        switch (actionId) {
+            case 4:
+                router.replace('/')
+                break;
+            case 5:
+                signOut();
+                break;
+            default:
+                return;
         }
     }
 
@@ -65,13 +82,22 @@ const AdminPage = () => {
     return (
         <div className='md:flex'>
             {/* Sidebar */}
-            <div className='md:fixed md:w-1/4 md:h-screen bg-blue-700 space-y-2  text-white p-8'>
+            <div className='md:fixed md:w-1/4 md:h-screen bg-green-700 space-y-2  text-white p-8'>
                 {SECTIONS.map(section => (
                     <div
                         key={section.id}
                         onClick={() => setOpenSection(section)}
-                        className={`cursor-pointer duration-100 hover:bg-blue-800 p-3 ${openSection.id === section.id && 'bg-blue-800'}`}>
+                        className={`cursor-pointer duration-100 hover:bg-green-800 p-3 ${openSection.id === section.id && 'bg-green-800'}`}>
                         <h5>{section.name}</h5>
+                    </div>
+                ))}
+                <hr className='border-t border-gray-300' />
+                {ACTIONS.map(action => (
+                    <div
+                        key={action.id}
+                        onClick={() => handleAction(action.id)}
+                        className={`cursor-pointer duration-100 hover:bg-green-800 p-3 ${openSection.id === action.id && 'bg-green-800'}`}>
+                        <h5>{action.name}</h5>
                     </div>
                 ))}
             </div>
