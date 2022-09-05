@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import MenuItem from "../models/menu-item";
 import Order from "../models/order";
 import Reservation from "../models/reservation";
+import User from "../models/user";
 
 const connection = {}
 
