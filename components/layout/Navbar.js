@@ -15,7 +15,7 @@ const NAVIGATION = [
     },
     {
         "title": "Rezerwacja",
-        "link": "/"
+        "link": "/rezerwacja"
     },
 ]
 
