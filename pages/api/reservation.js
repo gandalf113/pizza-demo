@@ -23,7 +23,7 @@ export default async function handler(req, res) {
             return;
         }
 
-        const reservations = await Reservation.find();
+        const reservations = await Reservation.find().sort({ _id: -1 });;
         res.status(200).json({ reservations });
     }
 }

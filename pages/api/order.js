@@ -12,14 +12,15 @@ export default async function handler(req, res) {
 
     // Create the order
     if (req.method === "POST") {
-        const { address, items, phone_number } = req.body;
+        const { delivery, address, items, phone_number } = req.body;
         try {
             const ordered_on = new Date().toISOString();
-            const order = new Order({ address, items, phone_number, ordered_on });
+            const order = new Order({ delivery, address, items, phone_number, ordered_on });
             await order.save();
             res.status(201).json({ order });
         }
         catch (error) {
+
             res.status(500).json({ message: "Wystąpił błąd przy tworzeniu zamówienia" });
         }
     }
@@ -28,11 +29,11 @@ export default async function handler(req, res) {
         const session = await getSession({ req: req });
 
         if (!session) {
-            res.status(401).json({message: "Wymagane uwierzytelnienie"});
+            res.status(401).json({ message: "Wymagane uwierzytelnienie" });
             return;
         }
 
-        const orders = await Order.find().populate('items.item');
+        const orders = await Order.find().populate('items.item').sort({ ordered_on: -1 });
 
         res.status(200).json({ orders });
     }

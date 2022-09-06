@@ -2,9 +2,10 @@ import mongoose from "mongoose";
 import { Schema, model, models } from "mongoose";
 
 const orderSchema = new Schema({
+    delivery: { type: Boolean, required: true },
     address: {
-        street: { type: String, required: true },
-        local: { type: String, required: true }
+        street: { type: String, required: false },
+        local: { type: String, required: false }
     },
     items: [{
         item: { type: mongoose.Types.ObjectId, required: true, ref: 'MenuItem' },

@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { getPriceSum } from '../../utils/cart-utils';
+import { getPriceSum, getTotalSum } from '../../utils/cart-utils';
+import { parseISOString, timestampToReadableString } from '../../utils/misc-utils';
 
 const OrderSection = () => {
     const [loading, setLoading] = useState(true);
@@ -18,6 +19,10 @@ const OrderSection = () => {
         fetchOrders();
     }, []);
 
+    const getAddress = (order) => {
+        return order.delivery ? order.address.street + " " + order.address.local : '-'
+    }
+
     if (loading) return <div>Ładowanie...</div>
 
     if (!orders) return <div>Brak zamówień</div>
@@ -34,6 +39,9 @@ const OrderSection = () => {
                                 Numer telefonu
                             </th>
                             <th scope='col' className='py-3 px-6'>
+                                Dowóz?
+                            </th>
+                            <th scope='col' className='py-3 px-6'>
                                 Adres
                             </th>
                             <th scope='col' className='py-3 px-6'>
@@ -42,17 +50,28 @@ const OrderSection = () => {
                             <th scope='col' className='py-3 px-6'>
                                 Kwota
                             </th>
+                            <th scope='col' className='py-3 px-6'>
+                                Czas zamówienia
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         {orders.map(order => (
                             <tr key={order.id}>
                                 <td scope='row' className='py-3 px-6'>{order.phone_number}</td>
-                                <td scope='row' className='py-3 px-6'>{order.address.street} {order.address.local}</td>
+                                <td scope='row' className='py-3 px-6'>{order.delivery ? "TAK" : "NIE"}</td>
+                                <td scope='row' className='py-3 px-6'>
+                                    {getAddress(order)}
+                                </td>
                                 <td scope='row' className='py-3 px-6'>{order.items.map(item => <div key={item._id}>
                                     {item.item.title} x{item.amount}
                                 </div>)}</td>
-                                <td scope='row' className='py-3 px-6'>{getPriceSum(order.items)} zł</td>
+                                <td scope='row' className='py-3 px-6'>{getTotalSum(order.items, order.delivery)} zł</td>
+                                <td scope='row' className='py-3 px-6'>
+                                    {parseISOString(order.ordered_on).toLocaleDateString()}
+                                    <br/>
+                                    {parseISOString(order.ordered_on).toLocaleTimeString()}
+                                    </td>
                             </tr>
                         ))}
 

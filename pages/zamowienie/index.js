@@ -80,8 +80,11 @@ const OrderPage = () => {
       street: street,
       local: local
     }
+
+    const delivery = deliveryMethod === 1
+
     const phone_number = phone
-    const data = { items, address, phone_number }
+    const data = { delivery, items, address, phone_number }
 
     const res = await fetch('/api/order/', {
       method: "POST",
