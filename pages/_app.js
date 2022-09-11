@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }) {
   return <Provider store={store}>
 
     <Head>
-      <title>Emilia Romagna - pizzeria w Raciborzu</title>
+      <title>Pizza Demo - przykładowa strona pizzeri</title>
     </Head>
     <Layout>
       <Component {...pageProps} />

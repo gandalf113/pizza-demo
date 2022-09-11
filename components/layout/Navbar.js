@@ -34,7 +34,7 @@ const Navbar = () => {
             <Link href='/'>
                 <div className='flex items-center gap-x-4 cursor-pointer z-10'>
                     <Image src='/logo_real.png' alt='logo' width={70} height={60} />
-                    <h1 className='font-handwritten text-4xl'>Emilia Romagna</h1>
+                    <h1 className='font-handwritten text-4xl'>Pizza Demo</h1>
                 </div>
             </Link>
             <div className='items-center gap-x-4 md:flex hidden'>

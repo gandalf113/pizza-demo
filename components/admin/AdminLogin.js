@@ -36,7 +36,7 @@ const AdminLogin = () => {
                 <Link href="/">
                     <div className="flex items-center mb-6 text-4xl font-semibold font-handwritten text-gray-900 cursor-pointer">
                         <img className="w-8 h-8 mr-2" src={'/logo_real.png'} alt="logo" />
-                        Emiliga Romagna
+                        Pizza Demo
                     </div>
                 </Link>
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
