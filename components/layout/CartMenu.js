@@ -31,7 +31,7 @@ const CartMenu = () => {
                     {/* Items */}
                     <div className='mt-8 flex flex-col gap-4'>
                         {cartItems.map(item => (
-                            <div className='flex justify-between'>
+                            <div key={item._id} className='flex justify-between'>
                                 <div className='flex items-center gap-x-4'>
                                     <div className='flex items-center gap-x-2 text-gray-500'>
                                         <button onClick={() => {

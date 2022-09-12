@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import Image from 'next/image'
 import MenuItem from '../../components/ui/menu/MenuItem';
+import MenuItemModel from '../../models/menu-item';
 import CategoryItem from '../../components/ui/menu/CategoryItem';
 import ShoppingCartFloatingButton from '../../components/ui/menu/ShoppingCartFloatingButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '../../redux/cartSlice';
 import { toggleCartMenu } from '../../redux/uiSlice';
+import connectDb from '../../utils/connect-db';
 
 
 export const CATEGORIES = [
@@ -46,6 +47,7 @@ const getItemCount = (items) => {
 }
 
 const MenuPage = ({ menuItems, error }) => {
+    menuItems = JSON.parse(menuItems);
     const [selectedCategory, setSelectedCategory] = useState(CATEGORIES[0]);
 
     const { items } = useSelector(state => state.cart);
@@ -82,14 +84,13 @@ const MenuPage = ({ menuItems, error }) => {
 }
 
 export async function getStaticProps() {
-    const res = await fetch(`${process.env.BASE_URL}/api/menu-item`)
+    await connectDb();
 
-    const resData = await res.json();
-    const items = resData.items;
+    const items = await MenuItemModel.find();
 
     return {
         props: {
-            menuItems: items,
+            menuItems: JSON.stringify(items),
         }
     }
 }
