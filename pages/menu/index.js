@@ -90,7 +90,7 @@ export async function getStaticProps() {
 
     return {
         props: {
-            menuItems: JSON.stringify(items),
+            menuItems: JSON.stringify(items.map(item => item.toObject({ getters: true })))
         }
     }
 }
