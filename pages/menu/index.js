@@ -63,7 +63,7 @@ const MenuPage = ({ menuItems, error }) => {
     }
 
     return (
-        <div className='z-10 md:mx-12 my-6 m-auto md:px-16 py-8 bg-white'>
+        <div className='z-10 md:mx-12 my-6 m-auto md:px-16 py-8 bg-white text-black'>
             <ShoppingCartFloatingButton onClick={openCart} count={getItemCount(items)} />
             <div className='flex justify-around mb-12'>
                 {CATEGORIES.map(category => (

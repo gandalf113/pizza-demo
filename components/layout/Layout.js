@@ -15,7 +15,7 @@ const Layout = (props) => {
                 <EditMenuItem />
 
                 <Navbar />
-                <main>
+                <main className='text-black bg-white'>
                     {props.children}
                 </main>
             </MenuProvider>
