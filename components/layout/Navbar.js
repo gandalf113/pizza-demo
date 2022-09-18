@@ -30,7 +30,7 @@ const Navbar = () => {
 
     return (
         <div className={`flex justify-between items-center
-         py-4 px-16 z-10 ${currentRoute !== '/' ? 'text-black' : 'text-white'}`}>
+         py-4 px-16 z-10 ${currentRoute !== '/' ? 'text-black bg-white' : 'text-white bg-transparent'}`}>
             <Link href='/'>
                 <div className='flex items-center gap-x-4 cursor-pointer z-10'>
                     <Image src='/logo_real.png' alt='logo' width={70} height={60} />
